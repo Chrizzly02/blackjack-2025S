@@ -316,7 +316,13 @@ class Dealer {
             player.currentHandIndex++;
             playHand(player);
         } else {
-            sendYourTurn(player, croupierHand.get(0), handIndex);
+            if (hand.size() == 2 && handValue(hand) == 21) {
+                sendResult(player, handIndex, (int)(1.5 * player.bet), "blackjack");
+                player.currentHandIndex++;
+                playHand(player);
+            } else {
+                sendYourTurn(player, croupierHand.get(0), handIndex);
+            }
         }
     }
 
