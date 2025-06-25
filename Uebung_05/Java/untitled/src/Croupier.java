@@ -220,8 +220,9 @@ class Dealer {
             List<Card> hand = player.hands.get(player.currentHandIndex);
             if (hand.size() == 2) {
                 sendOfferSurrender(player, player.currentHandIndex);
+            } else {
+                sendYourTurn(player, croupierHand.get(0), player.currentHandIndex);
             }
-            sendYourTurn(player, croupierHand.get(0), player.currentHandIndex);
         } else {
             playNextPlayerHand();
         }
@@ -251,7 +252,6 @@ class Dealer {
                 if (handValue(hand) > 21) {
                     sendResult(player, handIndex, -player.bet, "bust");
                     player.currentHandIndex++;
-                    playHand(player);
                 } else {
                     sendYourTurn(player, croupierHand.get(0), handIndex);
                 }
@@ -311,6 +311,8 @@ class Dealer {
         }
         int handIndex = msg.has("handIndex") ? msg.get("handIndex").getAsInt() : 0;
         String answer = getString(msg, "answer");
+        List<Card> hand = player.hands.get(handIndex);
+        
         if ("yes".equalsIgnoreCase(answer)) {
             sendResult(player, handIndex, -player.bet / 2, "surrender");
             player.currentHandIndex++;
