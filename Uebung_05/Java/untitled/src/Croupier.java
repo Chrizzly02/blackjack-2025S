@@ -274,6 +274,7 @@ class Dealer {
                     playHand(player);
                 } else {
                     sendError("Double Down nur mit 2 Karten erlaubt", addr, port);
+                    sendYourTurn(player, croupierHand.get(0), handIndex);
                 }
                 break;
             case "split":
@@ -314,12 +315,10 @@ class Dealer {
         List<Card> hand = player.hands.get(handIndex);
         
         if ("yes".equalsIgnoreCase(answer)) {
-            sendResult(player, handIndex, -player.bet / 2, "surrender");
             player.currentHandIndex++;
             playHand(player);
         } else {
             if (hand.size() == 2 && handValue(hand) == 21) {
-                sendResult(player, handIndex, (int)(1.5 * player.bet), "blackjack");
                 player.currentHandIndex++;
                 playHand(player);
             } else {
