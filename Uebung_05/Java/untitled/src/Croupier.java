@@ -250,8 +250,8 @@ class Dealer {
                 sendReceiveCard(player, card, handIndex);
                 notifyCounterReceiveCard(player, card, handIndex);
                 if (handValue(hand) > 21) {
-                    sendResult(player, handIndex, -player.bet, "bust");
                     player.currentHandIndex++;
+                    playHand(player);
                 } else {
                     sendYourTurn(player, croupierHand.get(0), handIndex);
                 }
